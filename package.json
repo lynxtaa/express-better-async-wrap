@@ -1,12 +1,19 @@
 {
   "name": "express-better-async-wrap",
   "version": "0.1.0",
-  "description": "Allows use of async functions as Express router handlers",
+  "description": "Allows fastify-like use of async functions as Express router handlers",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lynxtaa/express-better-async-wrap.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lynxtaa/express-better-async-wrap/issues"
+  },
+  "homepage": "https://github.com/lynxtaa/express-better-async-wrap#readme",
   "files": [
     "lib"
   ],
   "main": "lib/index.js",
-  "module": "es/index.js",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
