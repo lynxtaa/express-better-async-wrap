@@ -1,0 +1,58 @@
+{
+	"root": true,
+	"extends": ["eslint:recommended"],
+	"parserOptions": {
+		"ecmaVersion": 8,
+		"ecmaFeatures": { "experimentalObjectRestSpread": true }
+	},
+	"env": {
+		"es6": true,
+		"node": true,
+		"jest": true
+	},
+	"rules": {
+		// Possible Errors
+		"no-await-in-loop": 1,
+		"no-template-curly-in-string": 1,
+		"valid-jsdoc": 1,
+
+		// Best Practices
+		"dot-notation": 1,
+		"no-alert": 1,
+		"no-caller": 1,
+		"no-else-return": 1,
+		"no-eq-null": 1,
+		"no-extra-bind": 1,
+		"no-invalid-this": 1,
+		"no-return-assign": 1,
+		"no-return-await": 2,
+		"no-throw-literal": 2,
+		"no-unused-expressions": 1,
+		"no-useless-call": 1,
+		"no-useless-return": 1,
+		"require-await": 2,
+
+		// Node.js and CommonJS
+		"callback-return": 2,
+		"no-path-concat": 2,
+
+		// Stylistic Issues
+		"no-unneeded-ternary": 2,
+		"quotes": 0,
+
+		// ECMAScript 6
+		"arrow-body-style": [1, "as-needed"],
+		"no-duplicate-imports": 2,
+		"no-useless-computed-key": 1,
+		"no-useless-constructor": 1,
+		"no-useless-rename": 1,
+		"no-var": 1,
+		"object-shorthand": 1,
+		"prefer-arrow-callback": 1,
+		"prefer-const": 1,
+		"prefer-destructuring": 1,
+		"prefer-rest-params": 1,
+		"prefer-spread": 1,
+		"require-yield": 2
+	}
+}
