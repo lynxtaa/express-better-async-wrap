@@ -6,6 +6,10 @@ it('returns function', () => {
   expect(typeof wrap(jest.fn())).toBe('function')
 })
 
+it("throws if decorated function doesn't return a promise", () => {
+  expect(() => wrap(jest.fn())()).toThrow("Cannot read property 'then'")
+})
+
 it('passes Request, Responce and Next to wrapped route handler', async () => {
   const fn = jest.fn((req, res, next) => Promise.resolve(undefined))
 

@@ -38,6 +38,17 @@ app.get('/file', wrap(async (req, res) => {
 
 **Warning:** If you are responding inside route handler, you must return `undefined`
 
+### Wrapping error handler middleware
+
+```javascript
+const wrap = require('express-better-async-wrap')
+
+app.use(wrap(async (err, req, res, next) => {
+  await doSomethingAsync()
+  res.status(500).send('Something broke!')
+}))
+```
+
 ### Customizing responce behaviour
 
 Use the `wrap.custom` symbol to override default responce behavior:
