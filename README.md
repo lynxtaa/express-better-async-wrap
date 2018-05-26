@@ -2,7 +2,7 @@
 
 Allows [fastify-like](https://www.fastify.io/docs/latest/Routes/#async-await) usage of async functions as Express router handlers.
 
-Unlike [express-async-wrap](https://www.npmjs.com/package/express-async-wrap) it calls responce.send with returned data automatically.
+Unlike [express-async-wrap](https://www.npmjs.com/package/express-async-wrap) it calls response.send with returned data automatically.
 
 ## Install
 
@@ -49,9 +49,9 @@ app.use(wrap(async (err, req, res, next) => {
 }))
 ```
 
-### Customizing responce behaviour
+### Customizing response behaviour
 
-Use the `wrap.custom` symbol to override default responce behavior:
+Use the `wrap.custom` symbol to override default response behavior:
 
 ```javascript
 const wrap = require('express-better-async-wrap')
@@ -59,11 +59,11 @@ const wrap = require('express-better-async-wrap')
 const customWrap = fn => {
   const wrapped = wrap(fn)
 
-  // Custom responce handler
+  // Custom response handler
   // Will be called with (req, res, next)(data) if data is NOT undefined
-  const customResponceHandler = (req, res, next) => data => res.send({ data })
+  const customResponseHandler = (req, res, next) => data => res.send({ data })
 
-  wrapped[wrap.custom] = customResponceHandler
+  wrapped[wrap.custom] = customResponseHandler
   return wrapped
 }
 

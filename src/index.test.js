@@ -10,25 +10,25 @@ it("throws if decorated function doesn't return a promise", () => {
   expect(() => wrap(jest.fn())()).toThrow("Cannot read property 'then'")
 })
 
-it('passes Request, Responce and Next to wrapped route handler', async () => {
+it('passes Request, Response and Next to wrapped route handler', async () => {
   const fn = jest.fn((req, res, next) => Promise.resolve(undefined))
 
-  await wrap(fn)('request', 'responce', 'next')
+  await wrap(fn)('request', 'response', 'next')
 
-  expect(fn).toHaveBeenCalledWith('request', 'responce', 'next')
+  expect(fn).toHaveBeenCalledWith('request', 'response', 'next')
   expect(fn).toHaveBeenCalledTimes(1)
 })
 
-it('passes Error, Request, Responce and Next to wrapped error handler', async () => {
+it('passes Error, Request, Response and Next to wrapped error handler', async () => {
   const fn = jest.fn((err, req, res, next) => Promise.resolve(undefined))
 
-  await wrap(fn)('error', 'request', 'responce', 'next')
+  await wrap(fn)('error', 'request', 'response', 'next')
 
-  expect(fn).toHaveBeenCalledWith('error', 'request', 'responce', 'next')
+  expect(fn).toHaveBeenCalledWith('error', 'request', 'response', 'next')
   expect(fn).toHaveBeenCalledTimes(1)
 })
 
-it('calls responce.send with resolved data if data IS NOT undefined', async () => {
+it('calls response.send with resolved data if data IS NOT undefined', async () => {
   const data = {}
   const res = { send: jest.fn() }
   const fn = (req, res, next) => Promise.resolve(data)
@@ -39,7 +39,7 @@ it('calls responce.send with resolved data if data IS NOT undefined', async () =
   expect(res.send).toHaveBeenCalledTimes(1)
 })
 
-it("doesn't call responce.send with resolved data if data IS undefined", async () => {
+it("doesn't call response.send if resolved data IS undefined", async () => {
   const res = { send: jest.fn() }
   const fn = (req, res, next) => Promise.resolve()
 
@@ -83,8 +83,8 @@ it('calls customized function if resolved data is NOT undefined', async () => {
 
   wrapped[wrap.custom] = customizer
 
-  await wrapped('request', 'responce', 'next')
+  await wrapped('request', 'response', 'next')
 
   expect(customizerDataHandler).toHaveBeenCalledWith(data)
-  expect(customizer).toHaveBeenCalledWith('request', 'responce', 'next')
+  expect(customizer).toHaveBeenCalledWith('request', 'response', 'next')
 })
