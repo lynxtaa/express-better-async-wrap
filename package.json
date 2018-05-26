@@ -13,6 +13,10 @@
   "files": [
     "lib"
   ],
+  "keywords": [
+    "express",
+    "async"
+  ],
   "main": "lib/index.js",
   "husky": {
     "hooks": {
