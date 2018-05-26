@@ -2,7 +2,7 @@ const symbol = Symbol('Wrap customizer')
 
 const isErrorHandler = fn => fn.length > 3
 
-function wrap(fn) {
+module.exports = function(fn) {
   const wrapped = isErrorHandler(fn)
     ? (err, req, res, next) =>
         fn(err, req, res, next)
@@ -19,6 +19,4 @@ function wrap(fn) {
   return wrapped
 }
 
-wrap.custom = symbol
-
-module.exports = wrap
+module.exports.custom = symbol
