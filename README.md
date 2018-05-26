@@ -1,4 +1,7 @@
-# [Express Better Async Wrap](https://www.npmjs.com/package/express-better-async-wrap)
+# Express Better Async Wrap
+
+[![NPM version](https://img.shields.io/npm/v/express-better-async-wrap.svg?style=flat-square)](https://www.npmjs.com/package/express-better-async-wrap)
+![CircleCI](https://img.shields.io/circleci/project/github/lynxtaa/express-better-async-wrap.svg?style=flat-square)
 
 Allows [fastify-like](https://www.fastify.io/docs/latest/Routes/#async-await) usage of async functions as Express router handlers.
 

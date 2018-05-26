@@ -33,6 +33,7 @@
     "check-pretty": "prettier --list-different \"*.{js,json}\" \"src/**/*.{js,json}\"",
     "preversion": "npm run build",
     "prepublish": "npm run build",
+    "release": "standard-version",
     "test": "jest"
   },
   "author": "Alex Kondratyuk <lynxtaa@gmail.com>",
