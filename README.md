@@ -1,4 +1,4 @@
-# express-better-async-wrap
+# [Express Better Async Wrap](https://www.npmjs.com/package/express-better-async-wrap)
 
 Allows [fastify-like](https://www.fastify.io/docs/latest/Routes/#async-await) usage of async functions as Express router handlers.
 

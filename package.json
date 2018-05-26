@@ -21,7 +21,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,json}": [
+    "*.{js,json}": [
       "prettier --write",
       "git add"
     ]
@@ -30,6 +30,7 @@
     "build": "babel src -d lib --ignore test.js",
     "prebuild": "rimraf lib",
     "lint": "eslint src/**/*.js",
+    "check-pretty": "prettier --list-different \"*.{js,json}\" \"src/**/*.{js,json}\"",
     "preversion": "npm run build",
     "prepublish": "npm run build",
     "test": "jest"
