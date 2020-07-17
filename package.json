@@ -1,6 +1,6 @@
 {
   "name": "express-better-async-wrap",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Allows fastify-like use of async functions as Express router handlers",
   "author": "Alex Kondratyuk <lynxtaa@gmail.com>",
   "license": "ISC",
