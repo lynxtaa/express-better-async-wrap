@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "ES2015",
+		"lib": ["ESNext"],
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"strict": true,
+		"forceConsistentCasingInFileNames": true,
+		"module": "CommonJS",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"declaration": true,
+		"declarationMap": true,
+		"noUnusedLocals": true,
+		"outDir": "lib"
+	},
+	"include": ["src"]
+}

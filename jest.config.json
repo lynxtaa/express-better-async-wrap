@@ -1,0 +1,5 @@
+{
+	"clearMocks": true,
+	"rootDir": "src",
+	"coverageDirectory": "<rootDir>/../coverage"
+}
