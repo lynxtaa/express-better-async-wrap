@@ -1,35 +1,68 @@
-type ErrHandler = (err: any, req: any, res: any, next: any) => Promise<any>
-type Middleware = (req: any, res: any, next: any) => Promise<any>
+import { RequestHandler, Request, Response, ErrorRequestHandler } from 'express'
 
-const isErrorHandler = (fn: ErrHandler | Middleware): fn is ErrHandler => fn.length > 3
-
-function wrap<T1, T2, T3>(
-	fn: (req: T1, res: T2, next: T3) => Promise<any>,
-): (req: T1, res: T2, next: T3) => Promise<void>
-
-function wrap<T1, T2, T3, T4>(
-	fn: (err: T1, req: T2, res: T3, next: T4) => Promise<any>,
-): (err: T1, req: T2, res: T3, next: T4) => Promise<void>
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-function wrap(fn: any) {
-	return isErrorHandler(fn)
-		? (err: any, req: any, res: any, next?: any) =>
-				fn(err, req, res, next)
-					.then((data) => {
-						if (data !== undefined) {
-							res.send(data)
-						}
-					})
-					.catch(next)
-		: (req: any, res: any, next: any) =>
-				fn(req, res, next)
-					.then((data: any) => {
-						if (data !== undefined) {
-							res.send(data)
-						}
-					})
-					.catch(next)
+interface RequestTypes {
+	/** Request body */
+	Body?: any
+	/** Request querystring */
+	Querystring?: Request['query']
+	/** Request params */
+	Params?: Record<string, string>
 }
 
-export { wrap }
+export function wrap<TRequestTypes extends RequestTypes = RequestTypes, ResBody = any>(
+	handler: (
+		req: Request<
+			TRequestTypes['Params'],
+			ResBody,
+			TRequestTypes['Body'],
+			TRequestTypes['Querystring']
+		>,
+		res: Response<ResBody>,
+	) => Promise<ResBody | void>,
+): RequestHandler<
+	TRequestTypes['Params'],
+	ResBody,
+	TRequestTypes['Body'],
+	TRequestTypes['Querystring']
+> {
+	return function (req, res, next) {
+		handler(req, res)
+			.then((result) => {
+				if (result !== undefined) {
+					res.send(result)
+				}
+			})
+			.catch(next)
+	}
+}
+
+export function wrapError<
+	TRequestTypes extends RequestTypes = RequestTypes,
+	ResBody = any
+>(
+	handler: (
+		err: unknown,
+		req: Request<
+			TRequestTypes['Params'],
+			ResBody,
+			TRequestTypes['Body'],
+			TRequestTypes['Querystring']
+		>,
+		res: Response<ResBody>,
+	) => Promise<ResBody | void>,
+): ErrorRequestHandler<
+	TRequestTypes['Params'],
+	ResBody,
+	TRequestTypes['Body'],
+	TRequestTypes['Querystring']
+> {
+	return function (err, req, res, next) {
+		handler(err, req, res)
+			.then((result) => {
+				if (result !== undefined) {
+					res.send(result)
+				}
+			})
+			.catch(next)
+	}
+}

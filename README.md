@@ -1,7 +1,6 @@
 # Express Better Async Wrap
 
-[![NPM version](https://img.shields.io/npm/v/express-better-async-wrap.svg?style=flat-square)](https://www.npmjs.com/package/express-better-async-wrap)
-![CircleCI](https://img.shields.io/circleci/project/github/lynxtaa/express-better-async-wrap.svg?style=flat-square)
+![CI/CD](https://github.com/lynxtaa/express-better-async-wrap/workflows/CI/CD/badge.svg) [![npm version](https://badge.fury.io/js/express-better-async-wrap.svg)](https://badge.fury.io/js/express-better-async-wrap) [![Codecov](https://img.shields.io/codecov/c/github/lynxtaa/express-better-async-wrap)](https://codecov.io/gh/lynxtaa/express-better-async-wrap)
 
 Allows [fastify-like](https://www.fastify.io/docs/latest/Routes/#async-await) usage of async functions as Express router handlers.
 
@@ -17,7 +16,7 @@ npm install express-better-async-wrap --save
 
 ### Wrapping async route handler
 
-```javascript
+```js
 const { wrap } = require('express-better-async-wrap')
 
 app.get(
@@ -33,7 +32,7 @@ app.get(
 
 ### Responding inside route handler
 
-```javascript
+```js
 const { wrap } = require('express-better-async-wrap')
 
 app.get(
@@ -49,13 +48,47 @@ app.get(
 
 ### Wrapping error handler middleware
 
-```javascript
-const { wrap } = require('express-better-async-wrap')
+```js
+const { wrapError } = require('express-better-async-wrap')
 
 app.use(
-  wrap(async (err, req, res, next) => {
+  wrapError(async (err, req, res, next) => {
     await doSomethingAsync()
     res.status(500).send('Something broke!')
+  }),
+)
+```
+
+### Usage with Typescript
+
+```ts
+import { wrap } from 'express-better-async-wrap'
+
+app.put(
+  '/user/:id',
+  wrap<
+    // Request params, querystring and body types
+    {
+      Params: { id: string }
+      Querystring: { throwIfNotFound?: string }
+      Body: { name: string; age: number }
+    },
+    // Response body type
+    { user: User | null }
+  >(async (req, res) => {
+    const user = await User.findOne(req.params.id)
+
+    if (!user) {
+      if (req.query.throwIfNotFound) {
+        throw new Error('User not found')
+      } else {
+        return { user: null }
+      }
+    }
+
+    await user.update({ name: req.body.name, age: req.body.age })
+
+    return { user }
   }),
 )
 ```
