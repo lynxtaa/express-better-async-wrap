@@ -102,12 +102,43 @@ it('handles errors', async () => {
 	server = await startServer(app)
 
 	const response = await server.request(`/user/10`)
-
 	expect(response.ok).toBe(false)
+
 	expect(await response.text()).toEqual(expect.stringContaining('Forbidden'))
 })
 
 it('supports error middleware', async () => {
+	const app = express()
+
+	const error = new Error('Forbidden')
+
+	app.get(
+		'/user/:id',
+		wrap(async () => {
+			throw error
+		}),
+	)
+
+	app.use(
+		wrapError(async (err, req, res) => {
+			res.status(403)
+			return {
+				statusCode: 403,
+				error: (err as Error).message,
+			}
+		}),
+	)
+
+	server = await startServer(app)
+
+	const response = await server.request(`/user/10`)
+	expect(response.status).toBe(403)
+
+	const json = await response.json()
+	expect(json).toEqual({ statusCode: 403, error: 'Forbidden' })
+})
+
+it('supports error middleware manual send', async () => {
 	const app = express()
 
 	const error = new Error('Forbidden')
@@ -132,7 +163,8 @@ it('supports error middleware', async () => {
 	server = await startServer(app)
 
 	const response = await server.request(`/user/10`)
-
 	expect(response.status).toBe(403)
-	expect(await response.text()).toEqual(expect.stringContaining('Forbidden'))
+
+	const json = await response.json()
+	expect(json).toEqual({ statusCode: 403, error: 'Forbidden' })
 })
