@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/lynxtaa/express-better-async-wrap/compare/v0.2.0...v0.3.0) (2020-09-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* improved Typescript support
+
+### Bug Fixes
+
+* improved Typescript support ([cf2dfb2](https://github.com/lynxtaa/express-better-async-wrap/commit/cf2dfb2de8973d55e7441c9418424ac40dcdb432))
+
 ## [0.2.0](https://github.com/lynxtaa/express-better-async-wrap/compare/v0.1.1...v0.2.0) (2020-07-17)
 
 
