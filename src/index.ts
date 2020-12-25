@@ -1,29 +1,31 @@
 import { RequestHandler, Request, Response, ErrorRequestHandler } from 'express'
 
-interface RequestTypes {
+export interface RouteGenericInterface {
 	/** Request body */
 	Body?: any
 	/** Request querystring */
 	Querystring?: Request['query']
 	/** Request params */
 	Params?: Record<string, string>
+	/** Response Body */
+	ResBody?: any
 }
 
-export function wrap<TRequestTypes extends RequestTypes = RequestTypes, ResBody = any>(
+export function wrap<TRoute extends RouteGenericInterface = RouteGenericInterface>(
 	handler: (
 		req: Request<
-			TRequestTypes['Params'],
-			ResBody,
-			TRequestTypes['Body'],
-			TRequestTypes['Querystring']
+			TRoute['Params'],
+			TRoute['ResBody'],
+			TRoute['Body'],
+			TRoute['Querystring']
 		>,
-		res: Response<ResBody>,
-	) => Promise<ResBody | void>,
+		res: Response<TRoute['ResBody']>,
+	) => Promise<TRoute['ResBody'] | void>,
 ): RequestHandler<
-	TRequestTypes['Params'],
-	ResBody,
-	TRequestTypes['Body'],
-	TRequestTypes['Querystring']
+	TRoute['Params'],
+	TRoute['ResBody'],
+	TRoute['Body'],
+	TRoute['Querystring']
 > {
 	return function (req, res, next) {
 		handler(req, res)
@@ -36,25 +38,22 @@ export function wrap<TRequestTypes extends RequestTypes = RequestTypes, ResBody 
 	}
 }
 
-export function wrapError<
-	TRequestTypes extends RequestTypes = RequestTypes,
-	ResBody = any
->(
+export function wrapError<TRoute extends RouteGenericInterface = RouteGenericInterface>(
 	handler: (
 		err: unknown,
 		req: Request<
-			TRequestTypes['Params'],
-			ResBody,
-			TRequestTypes['Body'],
-			TRequestTypes['Querystring']
+			TRoute['Params'],
+			TRoute['ResBody'],
+			TRoute['Body'],
+			TRoute['Querystring']
 		>,
-		res: Response<ResBody>,
-	) => Promise<ResBody | void>,
+		res: Response<TRoute['ResBody']>,
+	) => Promise<TRoute['ResBody'] | void>,
 ): ErrorRequestHandler<
-	TRequestTypes['Params'],
-	ResBody,
-	TRequestTypes['Body'],
-	TRequestTypes['Querystring']
+	TRoute['Params'],
+	TRoute['ResBody'],
+	TRoute['Body'],
+	TRoute['Querystring']
 > {
 	return function (err, req, res, next) {
 		handler(err, req, res)

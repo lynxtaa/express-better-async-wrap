@@ -66,16 +66,12 @@ import { wrap } from 'express-better-async-wrap'
 
 app.put(
   '/user/:id',
-  wrap<
-    // Request params, querystring and body types
-    {
-      Params: { id: string }
-      Querystring: { throwIfNotFound?: string }
-      Body: { name: string; age: number }
-    },
-    // Response body type
-    { user: User | null }
-  >(async (req, res) => {
+  wrap<{
+    Params: { id: string }
+    Querystring: { throwIfNotFound?: string }
+    Body: { name: string; age: number }
+    ResBody: { user: User | null }
+  }>(async (req, res) => {
     const user = await User.findOne(req.params.id)
 
     if (!user) {

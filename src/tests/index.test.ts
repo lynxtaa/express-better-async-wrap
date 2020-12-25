@@ -38,16 +38,11 @@ it('uses correct types', async () => {
 
 	app.post(
 		'/login',
-		wrap<
-			{
-				Querystring: { isNew?: string }
-				Body: {
-					login: string
-					password: string
-				}
-			},
-			{ user: { id: number } | null }
-		>(async (req) => {
+		wrap<{
+			Querystring: { isNew?: string }
+			Body: { login: string; password: string }
+			ResBody: { user: { id: number } | null }
+		}>(async (req) => {
 			if (req.body.login === 'admin' && req.body.password === '123456') {
 				return { user: { id: 1 } }
 			}
